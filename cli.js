@@ -87,19 +87,17 @@ if (process.argv.length < 3){
   let err_msg = 'Invalid arguments'
   usage(err_msg)
 } else if ((arguments[0] === valid_arguments[0]) && (arguments[1] === valid_arguments[1])) {
-  console.log('Aquí se llaman las estadísticas con el estado de los links')
+  // Aquí se llaman las estadísticas con el estado de los links
   statsValidate();
 }
 else if (arguments[0] === valid_arguments[0]){
-  console.log('Llamar la función mdLinks y reordenar la información que retorna')
+  // Llamar la función mdLinks y reordenar la información que retorna
   consultsMd();
-  console.log(arguments)
 } else if (arguments[0] === valid_arguments[1]) {
-  console.log('Aquí se llama la función que calcula estadísticas')
+  // Aquí se llama la función que calcula estadísticas
   stats();
 }
 else if (arguments[0] === undefined) {
-  console.log('Se llama mdLinks con false')
+  // Se llama mdLinks con false
   simpleMd();
-  //mdLinks.mdLinks(path, {validate: false}).then(links => console.log(links))
 }
