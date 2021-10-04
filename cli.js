@@ -1,6 +1,16 @@
 #!/usr/bin/env node
 
 const mdLinks = require("./index");
+const figlet = require('figlet');
+const chalk = require('chalk');
+
+figlet('Welcome to mdLinks', (err, data) => {
+    if (err) {
+        console.dir(err);
+        return;
+    }
+    console.log(chalk.yellow(data));
+});
 
 const usage = (err_msg = false) => {
   const usageText = `
@@ -74,9 +84,9 @@ const statsValidate =  () => {
     }
     const total = results.length;
     const unique = results.length;
-    console.log('Total: ', total);
-    console.log('Unique: ', unique);
-    console.log('Broken: ', broken.length);
+    console.log(chalk.green('Total: '), total);
+    console.log(chalk.green('Unique: '), unique);
+    console.log(chalk.red('Broken: '), broken.length);
   })
 }
 

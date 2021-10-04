@@ -23,8 +23,8 @@ const validFalse = [
 
 describe('mdLinks', () => {
 
-  it('should...', () => {
-    return expect(mdLinks(path, options)).resolves.toBe(validFalse);
+  it('Debería resolver un arreglo de objetos', () => {
+    return expect(mdLinks.mdLinks(path, options)).resolves.toBe(validFalse);
   });
 });
 
