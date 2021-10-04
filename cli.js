@@ -35,15 +35,71 @@ const path = process.argv[2]
 const arguments = process.argv.slice(3)
 const valid_arguments = ["--validate", "--stats"]
 
+const results = mdLinks.mdLinks(path, {validate: false}).then(links => links);
+
+const simpleMd = () => {
+  return new Promise(resolve => {
+   mdLinks.mdLinks(path, {validate: false}).then(results => {
+      for (let result in results) {
+        console.log(results[result].file + ' ' + results[result].href + ' ' + results[result].text)
+      }
+    })
+  })
+}
+
+const consultsMd = () => {
+   mdLinks.mdLinks(path, {validate: true}).then(results => {
+      for (let result in results) {
+        console.log(result + ' => ' + results[result].file + ' ' + results[result].href +  ' ' + results[result].ok + ' ' + results[result].status + ' ' +  results[result].text)
+      }
+    })
+}
+
+const stats = () => {
+  mdLinks.mdLinks(path, {validate: true}).then(results => {
+    const total = results.length;
+    const unique = results.length;
+    console.log('Total: ', total);
+    console.log('Unique: ', unique);
+  })
+}
+
+const statsValidate =  () => {
+  mdLinks.mdLinks(path, {validate: true}).then(results => {
+    let broken = '';
+    for (let result in results) {
+      if (results[result].ok === 'Fail') {
+        broken += 1;
+      }
+    }
+    const total = results.length;
+    const unique = results.length;
+    console.log('Total: ', total);
+    console.log('Unique: ', unique);
+    console.log('Broken: ', broken.length);
+  })
+}
+
 if (process.argv.length < 3){
   let err_msg = 'No arguments found'
   usage(err_msg)
 }else if(!checkArgs(arguments, valid_arguments)){
   let err_msg = 'Invalid arguments'
   usage(err_msg)
-}else{
-  console.log('everything is allright');
-  // Llamar la función mdLinks y reordenar la información que retorna
-  mdLinks.mdLinks(path, true).then(links => console.log(links))
+} else if ((arguments[0] === valid_arguments[0]) && (arguments[1] === valid_arguments[1])) {
+  console.log('Aquí se llaman las estadísticas con el estado de los links')
+  statsValidate();
+}
+else if (arguments[0] === valid_arguments[0]){
+  console.log('Llamar la función mdLinks y reordenar la información que retorna')
+  consultsMd();
   console.log(arguments)
+} else if (arguments[0] === valid_arguments[1]) {
+  console.log('Aquí se llama la función que calcula estadísticas')
+  stats();
+}
+else if (arguments[0] === undefined) {
+  console.log('Se llama mdLinks con false')
+  simpleMd();
+  //mdLinks.mdLinks(path, {validate: false}).then(links => console.log(links))
 }
