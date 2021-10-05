@@ -6,7 +6,7 @@ const chalk = require('chalk');
 
 figlet('Welcome to mdLinks', (err, data) => {
     if (err) {
-        console.dir(err);
+        console.dir(chalk.red(err));
         return;
     }
     console.log(chalk.yellow(data));
@@ -27,7 +27,7 @@ const usage = (err_msg = false) => {
   if (err_msg){
     console.log(err_msg)
   }
-  console.log(usageText)
+  console.log(chalk.green(usageText))
 }
 
 const checkArgs = (arguments, valid_arguments) => {
@@ -45,8 +45,6 @@ const path = process.argv[2]
 const arguments = process.argv.slice(3)
 const valid_arguments = ["--validate", "--stats"]
 
-const results = mdLinks.mdLinks(path, {validate: false}).then(links => links);
-
 const simpleMd = () => {
   return new Promise(resolve => {
    mdLinks.mdLinks(path, {validate: false}).then(results => {
@@ -54,6 +52,7 @@ const simpleMd = () => {
         console.log(results[result].file + ' ' + results[result].href + ' ' + results[result].text)
       }
     })
+    .catch(err => console.log(chalk.red(err)));
   })
 }
 
@@ -63,15 +62,21 @@ const consultsMd = () => {
         console.log(result + ' => ' + results[result].file + ' ' + results[result].href +  ' ' + results[result].ok + ' ' + results[result].status + ' ' +  results[result].text)
       }
     })
+    .catch(err => console.log(chalk.red(err)));
 }
 
 const stats = () => {
   mdLinks.mdLinks(path, {validate: true}).then(results => {
+    let uniques = [];
+    for (let result in results) {
+      uniques[result] = results[result].href;
+    }
     const total = results.length;
-    const unique = results.length;
+    const uniqueSet = new Set(uniques);
     console.log('Total: ', total);
-    console.log('Unique: ', unique);
+    console.log('Unique: ', uniqueSet.size);
   })
+  .catch(err => console.log(chalk.red(err)));
 }
 
 const statsValidate =  () => {
@@ -90,6 +95,7 @@ const statsValidate =  () => {
     console.log(chalk.green('Unique: '), uniqueSet.size);
     console.log(chalk.red('Broken: '), broken.length);
   })
+  .catch(err => console.log(chalk.red(err)));
 }
 
 if (process.argv.length < 3){

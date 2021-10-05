@@ -2,7 +2,7 @@ const path = require("path");
 const functions = require('./functions');
   
 const mdLinks = (path_, options) => {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const pathAbsolute = path.resolve(path_);
 
     if (functions.isDirectory(pathAbsolute)) {
@@ -12,12 +12,16 @@ const mdLinks = (path_, options) => {
     .then(links => links);
     resolve(theLinks);
     } 
-    else {
+    else if (!functions.isDirectory(pathAbsolute) && path.extname(pathAbsolute) === '.md') {
       const theLinks2 = functions.extractLinks([pathAbsolute])
     .then(urls => functions.validateLinks(urls, options.validate))
-    .then(links => links);
+    .then(links => {
+      console.log(links);
+    return links});
     resolve(theLinks2);
-    }  
+    } else {
+      reject('Ingrese un directorio o un archivo md');
+    } 
   })  
 };
 

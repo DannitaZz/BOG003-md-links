@@ -1,6 +1,8 @@
 const mdLinks = require('../index');
 
 const path = './Los_readme';
+const path2 = './Los_readme/README-cardvalidation.md';
+const path3 = './Los_readme/elquenodebeserleido.txt';
 const options = {validate: false};
 const validFalse = [
   {
@@ -22,8 +24,14 @@ const validFalse = [
 
 
 describe('mdLinks', () => {
-  it('Debería resolver un arreglo de objetos', () => {
+  it('Debería resolver un arreglo de objetos si le paso un directorio', () => {
     return expect(mdLinks.mdLinks(path, options)).resolves.toStrictEqual(validFalse);
   });
+  it('Debería resolver un arreglo de objetos si le paso un archivo md', () => {
+    return expect(mdLinks.mdLinks(path2, options)).resolves.toStrictEqual(validFalse);
+  });
+  it('Debería retornar un error si le paso un archivo diferente a md', () => {
+    return expect(mdLinks.mdLinks(path3, options)).rejects.toBe('Ingrese un directorio o un archivo md');
+  })
 });
 

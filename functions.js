@@ -29,11 +29,7 @@ const recurReadRecur = (path_, paths) => {
 const recurRead = (path_) =>{
     let paths = []
     final_path_list = recurReadRecur(path_, paths)
-    return new Promise((resolve) => {
-      if (final_path_list.length === 0) {
-        console.log('No se encontraron archivos md')
-        //resolve(final_path_list)
-      } 
+    return new Promise((resolve) => { 
         resolve(final_path_list)
     })
 }
