@@ -1,4 +1,4 @@
-const mdLinks = require('./index');
+const mdLinks = require('../index');
 
 const path = './Los_readme';
 const options = {validate: false};
@@ -22,9 +22,8 @@ const validFalse = [
 
 
 describe('mdLinks', () => {
-
   it('Debería resolver un arreglo de objetos', () => {
-    return expect(mdLinks.mdLinks(path, options)).resolves.toBe(validFalse);
+    return expect(mdLinks.mdLinks(path, options)).resolves.toStrictEqual(validFalse);
   });
 });
 

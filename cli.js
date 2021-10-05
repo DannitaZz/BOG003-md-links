@@ -77,15 +77,17 @@ const stats = () => {
 const statsValidate =  () => {
   mdLinks.mdLinks(path, {validate: true}).then(results => {
     let broken = '';
+    let uniques = [];
     for (let result in results) {
+      uniques[result] = results[result].href;
       if (results[result].ok === 'Fail') {
         broken += 1;
       }
     }
     const total = results.length;
-    const unique = results.length;
+    const uniqueSet = new Set(uniques);
     console.log(chalk.green('Total: '), total);
-    console.log(chalk.green('Unique: '), unique);
+    console.log(chalk.green('Unique: '), uniqueSet.size);
     console.log(chalk.red('Broken: '), broken.length);
   })
 }
