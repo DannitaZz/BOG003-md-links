@@ -4,6 +4,8 @@ const mdLinks = require("./index");
 const figlet = require('figlet');
 const chalk = require('chalk');
 
+// Ruta de prueba: C:\\Users\\danit\\Documents\\Laboratoria\\Los_readme
+
 figlet('Welcome to mdLinks', (err, data) => {
     if (err) {
         console.dir(chalk.red(err));
@@ -49,7 +51,7 @@ const simpleMd = () => {
   return new Promise(resolve => {
    mdLinks.mdLinks(path, {validate: false}).then(results => {
       for (let result in results) {
-        console.log(results[result].file + ' ' + results[result].href + ' ' + results[result].text)
+        console.log(chalk.green(result) + chalk.yellow(' => ') + chalk.blue(results[result].file) + ' ' + chalk.red(results[result].href) + ' ' + chalk.white(results[result].text))
       }
     })
     .catch(err => console.log(chalk.red(err)));
@@ -59,7 +61,7 @@ const simpleMd = () => {
 const consultsMd = () => {
    mdLinks.mdLinks(path, {validate: true}).then(results => {
       for (let result in results) {
-        console.log(result + ' => ' + results[result].file + ' ' + results[result].href +  ' ' + results[result].ok + ' ' + results[result].status + ' ' +  results[result].text)
+        console.log(chalk.green(result) + chalk.yellow(' => ') + chalk.blue(results[result].file) + ' ' + chalk.red(results[result].href) +  ' ' + chalk.black.bgMagenta(results[result].ok) + ' ' + chalk.black.bgBlue(results[result].status) + ' ' +  chalk.white(results[result].text))
       }
     })
     .catch(err => console.log(chalk.red(err)));
